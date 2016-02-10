@@ -1,24 +1,24 @@
 {
-  "name": "co-generators",
-  "version": "0.0.1-8",
-  "description": "Generators for compoundjs",
+  "name": "co-generators-ex4",
+  "version": "0.1.0",
+  "description": "Generators for compoundjs-ex4",
   "main": "index.js",
   "dependencies": {
-    "compound": ">= 1.1.5-17",
+    "compound-ex4": ">= 0.1.2",
     "inflection": "~1.2.5"
   },
   "devDependencies": {
     "mocha": "1.8.1",
     "should": "1.2.2",
     "semicov": "0.1.1",
-    "express": "3.x"
+    "express": "4.x"
   },
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/compoundjs/generators.git"
+    "url": "git://github.com/weber/generators.git"
   },
   "keywords": [
     "compound",
