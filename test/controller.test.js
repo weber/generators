@@ -1,9 +1,12 @@
-var sys = require('sys');
+var util = require('util');
 
-describe('controller', function() {
-    var app, compound, output, puts;
+describe('controller', function () {
+    var app;
+    var compound;
+    var output;
+    var puts;
 
-    before(function() {
+    before(function () {
         app = getApp();
         compound = app.compound;
         stubFS();
@@ -11,22 +14,22 @@ describe('controller', function() {
 
     after(unstubFS);
 
-    beforeEach(function() {
+    beforeEach(function () {
         output = [];
-        puts = sys.puts;
-        sys.puts = function(str) {
+        puts = util.puts;
+        util.puts = function (str) {
             output.push(str.replace(/\u001b\[\d+m/g, ''));
         };
     });
 
-    afterEach(function() {
+    afterEach(function () {
         flushFS();
-        sys.puts = puts;
+        util.puts = puts;
     });
 
-    it('should generate controller', function() {
+    it('should generate controller', function () {
         compound.generators.perform('controller', ['controllerName', 'new', 'edit', 'index']);
-        output.should.eql( [ 'create  app/',
+        output.should.eql(['create  app/',
         'create  app/controllers/',
         'create  app/helpers/',
         'create  app/views/',
@@ -35,7 +38,7 @@ describe('controller', function() {
         'create  app/helpers/controllerName_helper.js',
         'create  app/views/controllerName/new.ejs',
         'create  app/views/controllerName/edit.ejs',
-        'create  app/views/controllerName/index.ejs' ]);
+        'create  app/views/controllerName/index.ejs']);
 
     });
 });

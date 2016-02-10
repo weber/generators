@@ -1,9 +1,12 @@
-var sys = require('sys');
+var util = require('util');
 
-describe('crud', function() {
-    var app, compound, output, puts;
+describe('crud', function () {
+    var app;
+    var compound;
+    var output;
+    var puts;
 
-    before(function() {
+    before(function () {
         app = getApp();
         compound = app.compound;
         stubFS();
@@ -11,22 +14,22 @@ describe('crud', function() {
 
     after(unstubFS);
 
-    beforeEach(function() {
+    beforeEach(function () {
         output = [];
-        puts = sys.puts;
-        sys.puts = function(str) {
+        puts = util.puts;
+        util.puts = function (str) {
             output.push(str.replace(/\u001b\[\d+m/g, ''));
         };
     });
 
-    afterEach(function() {
+    afterEach(function () {
         flushFS();
-        sys.puts = puts;
+        util.puts = puts;
     });
 
-    it('should generate scaffold', function() {
+    it('should generate scaffold', function () {
         compound.generators.perform('scaffold', ['post', 'title', 'content']);
-        output.should.eql([ 'create  app/',
+        output.should.eql(['create  app/',
         'create  app/controllers/',
         'create  app/helpers/',
         'create  app/views/',
@@ -68,13 +71,13 @@ describe('crud', function() {
 
     });
 
-    it('should allow "model" as fieldname', function() {
+    it('should allow "model" as fieldname', function () {
         compound.generators.perform('scaffold', ['users', 'modeltest']);
         var usersform = getFile(app.root + '/app/views/users/_form.ejs')
         usersform.should.include('form.input("modeltest")');
     });
 
-    it('should accurately handle camelcase model name', function() {
+    it('should accurately handle camelcase model name', function () {
         compound.generators.perform('scaffold', ['SomeName', 'field']);
         var ctl = getFile(app.root + '/app/controllers/somenames_controller.js');
         output.should.eql([
@@ -102,31 +105,5 @@ describe('crud', function() {
         ]);
         ctl.should.include('body.SomeName');
         ctl.should.not.include('body.Somename');
-    });
-
-    it('should generate scaffold for jade', function() {
-        compound.generators.perform('scaffold', ['-tpl', 'jade', 'post', 'title', 'content']);
-        output.should.eql([ 'create  app/',
-        'create  app/controllers/',
-        'create  app/helpers/',
-        'create  app/views/',
-        'create  app/views/posts/',
-        'create  app/views/layouts',
-        'create  test/',
-        'create  test/controllers/',
-        'create  app/controllers/posts_controller.js',
-        'exists  app/',
-        'create  app/models/',
-        'create  app/models/post.js',
-        'create  app/views/layouts/posts_layout.jade',
-        'create  app/views/posts/_form.jade',
-        'create  app/views/posts/show.jade',
-        'create  app/views/posts/new.jade',
-        'create  app/views/posts/edit.jade',
-        'create  app/views/posts/index.jade',
-        'create  app/helpers/posts_helper.js',
-        'create  test/controllers/posts_controller.test.js',
-        'create  test/init.js']);
-
     });
 });

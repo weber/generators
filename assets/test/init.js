@@ -1,7 +1,7 @@
 require('should');
 
 global.getApp = function(done) {
-    var app = require('compound').createServer()
+    var app = require('compound-ex4').createServer()
 
     app.renderedViews = [];
     app.flashedMessages = {};
